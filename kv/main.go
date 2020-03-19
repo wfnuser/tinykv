@@ -24,6 +24,7 @@ import (
 var (
 	schedulerAddr = flag.String("scheduler", "", "scheduler address")
 	storeAddr     = flag.String("addr", "", "store address")
+	dbPath        = flag.String("path", "", "directory path of db")
 )
 
 func main() {
@@ -35,9 +36,13 @@ func main() {
 	if *storeAddr != "" {
 		conf.StoreAddr = *storeAddr
 	}
+	if *dbPath != "" {
+		conf.DBPath = *dbPath
+	}
+
 	log.SetLevelByString(conf.LogLevel)
 	log.SetFlags(log.Ldate | log.Ltime | log.Lmicroseconds | log.Lshortfile)
-	log.Infof("conf %v", conf)
+	log.Infof("Server started with conf %+v", conf)
 
 	var storage storage.Storage
 	if conf.Raft {
